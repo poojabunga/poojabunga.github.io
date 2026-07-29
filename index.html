@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pooja Bunga Pitriana - Portfolio</title>
+    
+    <!-- Import Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;700&family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- Import FontAwesome for Social Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* --- Variabel Warna --- */
+        :root {
+            --primary-pink: #d19b9b;
+            --primary-green: #b2c22b;
+            --bg-pink: #fbf1f7;
+            --text-dark: #5c5c5c;
+            --text-light: #ffffff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            overflow-x: hidden;
+            background-color: var(--text-light); /* Background putih untuk keseluruhan web */
+        }
+
+        /* =========================================
+           BAGIAN 1: HERO SECTION (Atas)
+           ========================================= */
+        .hero-section {
+            background-color: var(--primary-pink); 
+            color: var(--text-light); 
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 40px;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            max-width: 1400px;
+            gap: 80px; 
+        }
+
+        /* --- Kolom Kiri --- */
+        .left-col {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .name {
+            font-family: 'Playfair Display', serif;
+            font-size: 4.5rem;
+            font-weight: 500;
+            line-height: 1.1;
+            margin-bottom: 30px;
+            color: var(--text-light);
+        }
+
+        .roles {
+            margin-bottom: 40px;
+        }
+
+        .roles p {
+            font-size: 0.85rem;
+            letter-spacing: 2px;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            color: var(--text-light);
+        }
+
+        .description {
+            font-size: 1.1rem;
+            font-weight: 600;
+            line-height: 1.5;
+            color: var(--text-light);
+        }
+
+        /* --- Kolom Tengah --- */
+        .center-col {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .main-img {
+            width: 320px;
+            height: 480px;
+            object-fit: cover;
+            border-radius: 20px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 20px;
+            margin-top: 25px;
+            align-self: flex-start;
+            padding-left: 10px;
+            align-items: center;
+        }
+
+        .social-icons > a > i {
+            font-size: 1.8rem;
+            color: var(--text-light);
+            cursor: pointer;
+            transition: opacity 0.3s ease;
+        }
+
+        .social-icons > a > i:hover {
+            opacity: 0.7;
+        }
+
+        .cv-button {
+            display: inline-flex;
+            align-items: center;
+            padding: 6px 20px; 
+            margin-left: 10px; 
+            border: 2px solid var(--text-light);
+            border-radius: 25px;
+            color: var(--text-light);
+            text-decoration: none;
+            font-size: 0.8rem; 
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+        }
+
+        .cv-button i {
+            font-size: 1rem;
+            margin-right: 8px; 
+            transition: color 0.3s ease;
+        }
+
+        .cv-button:hover {
+            background-color: var(--text-light);
+            color: var(--primary-pink); 
+        }
+
+        .cv-button:hover i {
+            color: var(--primary-pink); 
+        }
+
+        /* --- Kolom Kanan --- */
+        .right-col {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start; 
+        }
+
+        .contact-info {
+            margin-bottom: 70px;
+        }
+
+        .contact-info a {
+            display: flex;
+            align-items: center;
+            font-size: 1rem;
+            color: var(--text-light);
+            text-decoration: none;
+            margin-bottom: 18px;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+        }
+
+        .contact-info a i {
+            margin-right: 15px;
+            font-size: 1.3rem; 
+        }
+
+        .sec-img {
+            width: 180px;
+            height: 180px;
+            object-fit: cover;
+            border-radius: 15px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+
+
+        /* =========================================
+           BAGIAN 2: PORTFOLIO SECTION (Tengah)
+           ========================================= */
+        .portfolio-section {
+            background-color: var(--text-light); 
+            padding: 100px 40px;
+            text-align: center;
+        }
+
+        .portfolio-header {
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
+            color: var(--primary-pink);
+            margin-bottom: 60px;
+            font-weight: 700;
+        }
+
+        .portfolio-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .portfolio-card {
+            background-color: var(--bg-pink); 
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            text-align: left;
+        }
+
+        .portfolio-card:hover {
+            transform: translateY(-10px); 
+            box-shadow: 0 10px 25px rgba(209, 155, 155, 0.2);
+        }
+
+        .portfolio-card img {
+            width: 100%;
+            height: 240px;
+            object-fit: cover;
+        }
+
+        .portfolio-content {
+            padding: 25px 30px;
+        }
+
+        .portfolio-content h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.6rem;
+            margin-bottom: 12px;
+        }
+
+        .portfolio-content h3 a {
+            text-decoration: none;
+            color: var(--primary-pink);
+            transition: color 0.3s ease;
+        }
+
+        .portfolio-content h3 a:hover {
+            color: var(--primary-green); 
+        }
+
+        .portfolio-content p {
+            font-size: 0.95rem;
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+
+        /* =========================================
+           BAGIAN 3: FOOTER SECTION (Bawah)
+           ========================================= */
+        .footer {
+            background-color: var(--primary-pink);
+            color: var(--text-light);
+            padding: 60px 20px 30px;
+            text-align: center;
+        }
+
+        .footer-content {
+            max-width: 800px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .footer-name {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+            font-weight: 500;
+        }
+
+        .footer-tagline {
+            font-size: 0.9rem;
+            letter-spacing: 1.5px;
+            margin-bottom: 30px;
+            opacity: 0.9;
+            text-transform: uppercase;
+        }
+
+        .footer-socials {
+            display: flex;
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .footer-socials a {
+            color: var(--text-light);
+            font-size: 1.6rem;
+            transition: transform 0.3s ease, color 0.3s ease;
+        }
+
+        .footer-socials a:hover {
+            color: var(--primary-green);
+            transform: translateY(-4px); /* Animasi sedikit melompat saat dihover */
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.3);
+            padding-top: 20px;
+            width: 100%;
+            font-size: 0.85rem;
+            opacity: 0.8;
+            font-weight: 500;
+        }
+
+        /* --- Responsif --- */
+        @media (max-width: 1200px) {
+            .container { gap: 40px; }
+            .name { font-size: 3.5rem; }
+            .main-img { width: 280px; height: 420px; }
+            .sec-img { width: 160px; height: 160px; }
+        }
+
+        @media (max-width: 860px) {
+            .container {
+                flex-direction: column;
+                text-align: center;
+                gap: 50px;
+            }
+            .right-col { align-items: center; }
+            .social-icons { align-self: center; padding-left: 0; }
+            .cv-button { margin-left: 0; }
+            .center-col { order: -1; }
+            
+            .portfolio-header { font-size: 2.5rem; }
+            .footer-name { font-size: 1.8rem; }
+            .footer-tagline { font-size: 0.75rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ================= HERO SECTION ================= -->
+    <section class="hero-section">
+        <div class="container">
+            <!-- Kolom Kiri -->
+            <div class="left-col">
+                <h1 class="name">Pooja<br>Bunga<br>Pitriana</h1>
+                
+                <div class="roles">
+                    <p>Quality Control • R&D • Training Development</p>
+                </div>
+                
+                <div class="description">
+                    <p>Fresh Graduate in<br>Agroindustrial Technology<br>Education</p>
+                </div>
+            </div>
+
+            <!-- Kolom Tengah -->
+            <div class="center-col">
+                <img src="FOTO_UTAMA.jpg" alt="Pooja Bunga Pitriana" class="main-img">
+                
+                <div class="social-icons">
+                    <a href="https://www.linkedin.com/in/poojabunga/" target="_blank">
+                        <i class="fab fa-linkedin"></i>
+                    </a>
+                    <a href="https://www.instagram.com/poojabp_/" target="_blank">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="cv/index.html" class="cv-button">
+                        View CV
+                    </a>
+                </div>
+            </div>
+
+            <!-- Kolom Kanan -->
+            <div class="right-col">
+                <div class="contact-info">
+                    <a href="mailto:poojabptr@gmail.com">
+                        <i class="fas fa-envelope"></i> poojabptr@gmail.com
+                    </a>
+                </div>
+                
+                <img src="FOTO_KECIL.jpg" alt="Portrait" class="sec-img">
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= PORTFOLIO SECTION ================= -->
+    <section class="portfolio-section">
+        <h2 class="portfolio-header">My Portfolio</h2>
+        
+        <div class="portfolio-grid">
+            
+            <!-- Portfolio Item 1 -->
+            <div class="portfolio-card">
+                <img src="porto.jpg" alt="Project 1">
+                <div class="portfolio-content">
+                    <h3><a href="portofolio/portfolio1/index.html">Quality Control Analysis</a></h3>
+                    <p>Brief description about the project. This project focused on maintaining and improving the quality of agroindustrial products.</p>
+                </div>
+            </div>
+
+            <!-- Portfolio Item 2 -->
+            <div class="portfolio-card">
+                <img src="porto.jpg" alt="Project 2">
+                <div class="portfolio-content">
+                    <h3><a href="portofolio/portfolio2/index.html">R&D Product Innovation</a></h3>
+                    <p>Developed a new process for extracting natural ingredients, reducing waste by 20% during the manufacturing phase.</p>
+                </div>
+            </div>
+
+            <!-- Portfolio Item 3 -->
+            <div class="portfolio-card">
+                <img src="porto.jpg" alt="Project 3">
+                <div class="portfolio-content">
+                    <h3><a href="portofolio/portfolio3/index.html">Training Development Program</a></h3>
+                    <p>Designed and implemented a comprehensive training module for new staff on food safety standards and regulations.</p>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- ================= FOOTER SECTION ================= -->
+    <footer class="footer">
+        <div class="footer-content">
+            <!-- Menampilkan nama lagi dengan font Serif sebagai branding -->
+            <h2 class="footer-name">Pooja Bunga Pitriana</h2>
+            <p class="footer-tagline">Quality Control &bull; R&D &bull; Training Development</p>
+            
+            <div class="footer-socials">
+                <a href="https://www.linkedin.com/in/poojabunga/" target="_blank"><i class="fab fa-linkedin"></i></a>
+                <a href="https://www.instagram.com/poojabp_/" target="_blank"><i class="fab fa-instagram"></i></a>
+                <a href="mailto:poojabptr@gmail.com"><i class="fas fa-envelope"></i></a>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2026 Pooja Bunga Pitriana. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>

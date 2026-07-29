@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CV - Pooja Bunga Pitriana</title>
+    <!-- Import Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet">
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* CSS Variables for colors */
+        :root {
+            --primary-pink: #d586b7;
+            --primary-green: #b2c22b;
+            --bg-pink: #fbf1f7;
+            --text-dark: #5c5c5c;
+            --text-light: #ffffff;
+            --font-serif: 'Playfair Display', serif;
+            --font-sans: 'Inter', sans-serif;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: var(--font-sans);
+            background-color: #ffffff;
+            color: var(--text-dark);
+            line-height: 1.5;
+        }
+
+        /* BACK BUTTON CSS */
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            margin: 30px 0 0 40px; 
+            color: #d19b9b;
+            text-decoration: none;
+            font-family: var(--font-sans);
+            font-weight: 600;
+            font-size: 0.95em;
+            transition: color 0.3s ease;
+        }
+
+        .back-btn:hover {
+            color: var(--primary-pink); 
+        }
+
+        .back-btn i {
+            margin-right: 8px;
+        }
+
+        .container {
+            display: flex;
+            max-width: 1100px;
+            margin: 20px auto 40px auto;
+            padding: 0 20px;
+        }
+
+        /* SIDEBAR (Left Column) */
+        .sidebar {
+            flex: 0 0 280px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .speech-bubble {
+            background-color: var(--bg-pink);
+            padding: 40px 30px;
+            border-radius: 12px;
+            position: relative;
+            width: 100%;
+            box-sizing: border-box;
+            text-align: left;
+        }
+
+        /* Speech Bubble Tail */
+        .speech-bubble::after {
+            content: '';
+            position: absolute;
+            bottom: -35px;
+            right: 40px;
+            border-width: 35px 25px 0 0;
+            border-style: solid;
+            border-color: var(--bg-pink) transparent transparent transparent;
+        }
+
+        .speech-bubble h1 {
+            font-family: var(--font-serif);
+            color: var(--primary-pink);
+            font-size: 1.5em;
+            margin: 0 0 5px 0;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .speech-bubble .title {
+            color: var(--primary-pink);
+            font-size: 0.9em;
+            font-style: italic;
+            font-weight: 600;
+            margin: 0 0 20px 0;
+            letter-spacing: 1px;
+        }
+
+        .speech-bubble .bio {
+            font-size: 0.9em;
+            color: var(--text-dark);
+            margin: 0;
+            line-height: 1.6;
+        }
+
+        .profile-pic {
+            width: 100%;
+            max-width: 260px;
+            margin-top: 50px;
+            object-fit: cover;
+        }
+
+        /* MAIN CONTENT (Right Column) */
+        .main-content {
+            flex: 1;
+            padding-left: 60px;
+        }
+
+        .page-title {
+            font-family: var(--font-serif);
+            color: var(--primary-green);
+            font-size: 3.5em;
+            margin: 0 0 40px 0;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+        }
+
+        .section-badge {
+            display: inline-block;
+            background-color: var(--primary-pink);
+            color: var(--text-light);
+            font-family: var(--font-serif);
+            font-size: 1.1em;
+            font-weight: 600;
+            padding: 6px 20px;
+            border-radius: 20px;
+            margin: 0 0 20px 0;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .item {
+            margin-bottom: 25px;
+        }
+
+        .item-title {
+            font-family: var(--font-serif);
+            color: var(--primary-pink);
+            font-size: 1.05em;
+            margin: 0 0 5px 0;
+            text-transform: uppercase;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            display: flex;
+            align-items: flex-start;
+        }
+
+        .item-title i {
+            margin-right: 10px;
+            margin-top: 3px;
+            font-size: 0.9em;
+        }
+
+        .item-subtitle {
+            color: var(--primary-green);
+            font-size: 0.85em;
+            font-weight: 600;
+            margin: 0 0 8px 0;
+        }
+
+        .item-desc {
+            font-size: 0.9em;
+            margin: 0;
+            line-height: 1.5;
+        }
+
+        .experience-section {
+            margin-top: 40px;
+        }
+
+        ul.cert-list {
+            padding-left: 15px;
+            margin: 0;
+            font-size: 0.9em;
+        }
+
+        ul.cert-list li {
+            margin-bottom: 10px;
+        }
+
+        /* Responsive adjustment */
+        @media (max-width: 900px) {
+            .back-btn {
+                margin: 20px 0 0 20px;
+            }
+            .container {
+                flex-direction: column;
+                margin-top: 20px;
+            }
+            .sidebar {
+                flex: none;
+                width: 100%;
+                max-width: 400px;
+                margin: 0 auto 40px auto;
+            }
+            .main-content {
+                padding-left: 0;
+            }
+            .grid-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Tombol Back -->
+    <a href="../" class="back-btn">
+        <i class="fa-solid fa-arrow-left"></i> Back
+    </a>
+
+    <div class="container">
+        <!-- Sidebar Kiri -->
+        <aside class="sidebar">
+            <div class="speech-bubble">
+                <h1>POOJA BUNGA PITRIANA</h1>
+                <p class="title">TRAINING DEV. OFFICER</p>
+                <p class="bio">
+                    BNSP-Certified Skilled Instructor and Agroindustrial Technology Education graduate with practical experience in instructional design, training facilitation, and project management. Proven track record in developing learning models, conducting systematic learning evaluations, and leading sustainability-focused research (PKM-RE).
+                </p>
+            </div>
+            <!-- Ganti src di bawah dengan foto asli Pooja -->
+            <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Pooja Bunga Pitriana" class="profile-pic" style="border-radius: 10px; clip-path: polygon(0 10%, 100% 0, 100% 100%, 0 100%);">
+        </aside>
+
+        <!-- Konten Utama Kanan -->
+        <main class="main-content">
+            <h1 class="page-title">ABOUT ME</h1>
+            
+            <div class="grid-container">
+                <!-- Kolom 1: Education & Experience -->
+                <div class="col-left">
+                    <section>
+                        <h2 class="section-badge">EDUCATION</h2>
+                        <div class="item">
+                            <h3 class="item-title">BACHELOR OF AGROINDUSTRIAL TECHNOLOGY EDUCATION</h3>
+                            <p class="item-subtitle">Universitas Pendidikan Indonesia (2022-2026) • GPA 3.84</p>
+                            <p class="item-desc">Undergraduate Thesis: Designed and implemented an interactive learning model, developing instructional media & assessment instruments. Head of Dept. AKPRO BEM HIMAGRIN FPTI UPI.</p>
+                        </div>
+                    </section>
+
+                    <section class="experience-section">
+                        <h2 class="section-badge">EXPERIENCE</h2>
+                        <div class="item">
+                            <h3 class="item-title">TEACHING PRACTICE</h3>
+                            <p class="item-subtitle">SMK Negeri 2 Cilaku • Aug 2025 - Nov 2025</p>
+                            <p class="item-desc">Designed lesson plans for Food Safety courses (GMP, SSOP, and HACCP). Organized a Zero Waste Seminar to promote sustainable waste management practices.</p>
+                        </div>
+                        <div class="item">
+                            <h3 class="item-title">QUALITY CONTROL INTERN</h3>
+                            <p class="item-subtitle">PT Dairygold Indonesia • Feb 2025 - Jun 2025</p>
+                            <p class="item-desc">Performed quality control testing across the Physicochemical Laboratory, Microbiology Laboratory, and production line. Conducted packaging inspections and sampling activities.</p>
+                        </div>
+                    </section>
+                </div>
+
+                <!-- Kolom 2: Skills, Certifications & Projects -->
+                <div class="col-right">
+                    <section>
+                        <h2 class="section-badge">SKILLS</h2>
+                        <div class="item">
+                            <h3 class="item-title"><i class="fa-solid fa-chalkboard-user"></i> TRAINING & DESIGN</h3>
+                            <p class="item-desc">Instructional Planning, Classroom Facilitation, Learning Assessment, Presentation & Communication, Program Facilitation.</p>
+                        </div>
+                        <div class="item">
+                            <h3 class="item-title"><i class="fa-solid fa-users-gear"></i> PROFESSIONAL SKILLS</h3>
+                            <p class="item-desc">Project Management, Stakeholder Engagement, Analytical Thinking, Environmental Sustainability Awareness.</p>
+                        </div>
+                        <div class="item">
+                            <h3 class="item-title"><i class="fa-solid fa-laptop"></i> SOFTWARE</h3>
+                            <p class="item-desc">Microsoft Office (Word, Excel, PowerPoint), Canva.</p>
+                        </div>
+                    </section>
+
+                    <section class="experience-section">
+                        <h2 class="section-badge">CERTIFICATIONS</h2>
+                        <ul class="cert-list">
+                            <li><strong>Skilled Instructor Certification</strong> - BNSP (Badan Nasional Sertifikasi Profesi).</li>
+                            <li><strong>Proficiency Test of English (PTESOL)</strong> - Balai Bahasa UPI.</li>
+                        </ul>
+                    </section>
+
+                    <section class="experience-section">
+                        <h2 class="section-badge">RESEARCH & PROJECTS</h2>
+                        <div class="item">
+                            <h3 class="item-title">PROJECT LEADER (PKM-RE)</h3>
+                            <p class="item-subtitle">Jan 2024 - Jul 2024</p>
+                            <p class="item-desc">Led Kemendikbudristek-funded research on transforming plastic packaging into edible cups using pineapple peel extract and shrimp shell chitosan.</p>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </main>
+    </div>
+
+</body>
+</html>
