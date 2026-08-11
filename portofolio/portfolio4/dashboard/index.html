@@ -1,0 +1,897 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QC Food Analysis Dashboard — Industrial Quality Assurance</title>
+  <meta name="description" content="Dashboard Eksekutif QC Food Analysis 4.800 Batch Inspeksi & Diagnostic Cross-Tabulation">
+
+  <!-- Fonts & FontAwesome -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <!-- Core Stylesheet -->
+  <link rel="stylesheet" href="css/style.css">
+
+  <!-- SheetJS & Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+</head>
+<body>
+  <div class="app-layout">
+    
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <div class="brand-logo">
+          <i class="fa-solid fa-microscope logo-icon"></i>
+          <div>
+            <h1 class="brand-title">FoodQC <span>Analytics</span></h1>
+            <p class="brand-subtitle">Industrial Quality Control</p>
+          </div>
+        </div>
+        <button class="btn-icon mobile-only" id="btnCloseSidebar" aria-label="Tutup Menu">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <nav class="sidebar-nav">
+        <span class="nav-section-title">EXECUTIVE & ROOT CAUSE</span>
+        <a href="#executive-framework" class="nav-link active">
+          <i class="fa-solid fa-brain"></i>
+          <span>Kesimpulan Besar & 5M1E</span>
+        </a>
+        <a href="#kpi-section" class="nav-link">
+          <i class="fa-solid fa-chart-pie"></i>
+          <span>Metrik Kunci (KPIs)</span>
+        </a>
+
+        <span class="nav-section-title">ANALISIS PIVOT LENGKAP</span>
+        <a href="#pivot-product-machine-section" class="nav-link">
+          <i class="fa-solid fa-boxes-stacked"></i>
+          <span>Pivot Produk & Mesin</span>
+        </a>
+        <a href="#pivot-machine-cause-section" class="nav-link">
+          <i class="fa-solid fa-industry"></i>
+          <span>Mesin vs Penyebab Reject</span>
+        </a>
+        <a href="#pivot-pareto-section" class="nav-link">
+          <i class="fa-solid fa-chart-column"></i>
+          <span>Pareto & Product vs Cause</span>
+        </a>
+        <a href="#pivot-shift-operator-section" class="nav-link">
+          <i class="fa-solid fa-users-gear"></i>
+          <span>Pivot Shift & Operator</span>
+        </a>
+        <a href="#pivot-trend-section" class="nav-link">
+          <i class="fa-solid fa-chart-line"></i>
+          <span>Tren Waktu (Time Series)</span>
+        </a>
+
+        <span class="nav-section-title">DATABASE MASTER</span>
+        <a href="#raw-table-section" class="nav-link">
+          <i class="fa-solid fa-table-list"></i>
+          <span>Master QC Data (4.800)</span>
+        </a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="data-source-badge">
+          <i class="fa-solid fa-database"></i>
+          <div class="source-info">
+            <span class="source-label">Dataset Terhubung:</span>
+            <span class="source-name">4.800 Batch Inspeksi Pangan</span>
+          </div>
+        </div>
+        <div class="portfolio-tag">
+          <small>QA/QC Data Analytics Portfolio</small>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="main-content">
+      
+      <!-- Top Header -->
+      <header class="top-header">
+        <div class="header-left">
+          <button class="btn-icon mobile-only" id="btnOpenSidebar" aria-label="Buka Menu">
+            <i class="fa-solid fa-bars"></i>
+          </button>
+          <div class="page-title-box">
+            <h2>QC Food Analysis — Executive Diagnostic Dashboard</h2>
+            <p class="breadcrumbs">Laboratorium Penjaminan Mutu &bull; Analisis Deskriptif & Diagnostik &bull; 4.800 Batch</p>
+          </div>
+        </div>
+
+        <div class="header-right">
+          <button class="btn-theme-toggle" id="themeToggle" aria-label="Ganti Tema">
+            <i class="fa-solid fa-sun icon-sun"></i>
+            <i class="fa-solid fa-moon icon-moon"></i>
+            <span class="theme-text">Light Mode</span>
+          </button>
+          <button class="btn-secondary" id="btnReloadData">
+            <i class="fa-solid fa-rotate-right"></i>
+            <span>Refresh</span>
+          </button>
+          <button class="btn-primary" onclick="window.print()">
+            <i class="fa-solid fa-file-pdf"></i>
+            <span>Ekspor PDF</span>
+          </button>
+        </div>
+      </header>
+
+      <div class="content-container">
+
+        <!-- Banner Ringkasan -->
+        <div class="system-banner">
+          <div class="banner-content">
+            <i class="fa-solid fa-circle-check banner-icon"></i>
+            <div class="banner-text">
+              <strong>Sistem Diagnostik Kualitas Aktif:</strong> Memuat seluruh lembar kerja Pivot Analitik, Matriks Cacat Silang, dan Framework Investigasi Akar Masalah (*Root Cause Analysis*).
+            </div>
+          </div>
+          <span class="banner-badge">Grand Total: 4.800 Batch | 316 Reject (6,58%)</span>
+        </div>
+
+        <!-- 1. Kesimpulan Besar & Root Cause Diagnostic Section -->
+        <!-- 1. Executive Summary & Root Cause Diagnostic Section -->
+<section id="executive-framework" class="section-block">
+  <div class="section-header">
+    <div>
+      <h3 class="section-title"><i class="fa-solid fa-clipboard-check"></i> Ringkasan Eksekutif & Analisis Diagnostik Mutu</h3>
+      <p class="section-desc">Kerangka analisis multivariat (5W1H) dan metodologi investigasi akar masalah berbasis 5M1E.</p>
+    </div>
+  </div>
+
+  <!-- 5W1H Diagnostic Matrix -->
+  <div class="framework-grid">
+    <!-- WHO / WHERE -->
+    <div class="card framework-card">
+      <div class="framework-header">
+        <span class="framework-tag tag-pink">VARIABEL PROSES & LINI</span>
+        <h4>Evaluasi Mesin, Shift & Operator</h4>
+      </div>
+      <ul class="framework-list">
+        <li><strong>Produk Kritis:</strong> Yogurt mencatat reject rate tertinggi (<strong>7,94%</strong>).</li>
+        <li><strong>Mesin Kritis:</strong> Mesin M2 mencatat reject rate tertinggi (<strong>7,13%</strong>).</li>
+        <li><strong>Korelasi Shift:</strong> Distribusi seimbang (Shift 1: 6,50% vs Shift 2: 6,67%).</li>
+        <li><strong>Korelasi Operator:</strong> Homogen pada rentang 6,38% – 7,02% tanpa deviasi ekstrem.</li>
+      </ul>
+    </div>
+
+    <!-- WHAT -->
+    <div class="card framework-card">
+      <div class="framework-header">
+        <span class="framework-tag tag-green">DISTRIBUSI DEFECT</span>
+        <h4>Pareto Kategori Cacat Mutu</h4>
+      </div>
+      <ul class="framework-list">
+        <li><strong>Top 1:</strong> High Moisture (45 batch / 14%)</li>
+        <li><strong>Top 2:</strong> High pH (43 batch / 28% kumulatif)</li>
+        <li><strong>Top 3:</strong> Metal Detector Fail (38 batch / 40% kumulatif)</li>
+        <li><strong>Top 4–5:</strong> Seal Defect (35 batch) & Low Moisture (34 batch)</li>
+        <li><em>7 dari 9 kategori cacat menyumbang 82% total reject.</em></li>
+      </ul>
+    </div>
+
+    <!-- WHERE EXACTLY -->
+    <div class="card framework-card">
+      <div class="framework-header">
+        <span class="framework-tag tag-blue">INTERAKSI SPESIFIK</span>
+        <h4>Pemetaan Cacat per Kategori Produk</h4>
+      </div>
+      <ul class="framework-list">
+        <li><strong>Cookies & Crackers:</strong> Terkonsentrasi pada <em>High Moisture</em>.</li>
+        <li><strong>Strawberry Jam:</strong> Terkonsentrasi pada <em>Metal Detector Fail</em>.</li>
+        <li><strong>Tomato Sauce:</strong> Terkonsentrasi pada <em>High pH</em>.</li>
+        <li><strong>Yogurt:</strong> Terkonsentrasi pada <em>Seal Defect & Underweight</em>.</li>
+        <li><strong>Mesin M2:</strong> Dominan <em>Moisture, Metal Detection, dan Sealing</em>.</li>
+      </ul>
+    </div>
+
+    <!-- WHEN -->
+    <div class="card framework-card">
+      <div class="framework-header">
+        <span class="framework-tag tag-yellow">POLA TREN WAKTU</span>
+        <h4>Karakteristik Time Series</h4>
+      </div>
+      <ul class="framework-list">
+        <li><strong>Fluktuasi Harian:</strong> Rentang 1–7 batch reject/hari.</li>
+        <li><strong>Fluktuasi Mingguan:</strong> Rentang 12–23 batch reject/minggu.</li>
+        <li><strong>Tren Bulanan:</strong> Jan (84) &rarr; Feb (73) &rarr; Mar (76) &rarr; Apr (83).</li>
+        <li><em>Karakteristik: Chronic / recurring variation (belum tampak penurunan konsisten).</em></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Professional Quality Synthesis & Next Step Validation -->
+  <div class="card report-card">
+    <div class="card-header-flex">
+      <div class="badge-title-group">
+        <span class="badge badge-success"><i class="fa-solid fa-file-lines"></i> ANALISIS DIAGNOSTIK AKAR MASALAH (ROOT CAUSE ANALYSIS)</span>
+      </div>
+      <span class="text-muted" style="font-size: 0.78rem;">Metodologi: Descriptive & Diagnostic Cross-Tabulation</span>
+    </div>
+
+    <div class="report-body">
+      <!-- Bahasa Indonesia -->
+      <div class="report-paragraph-block">
+        <h5 class="report-subheading"><i class="fa-solid fa-align-left"></i> Sintesis Analisis Kualitas & Arahan Tindakan Korektif (CAPA)</h5>
+        <p class="report-text">
+          Secara keseluruhan, reject rate sebesar <strong>6,58%</strong> menunjukkan bahwa variasi reject lebih berkaitan dengan <strong>karakteristik produk, performa mesin, dan jenis defect</strong> dibandingkan faktor operator maupun shift. <strong>Yogurt</strong> mencatatkan reject rate tertinggi (<strong>7,94%</strong>), sedangkan <strong>Mesin M2</strong> mencatat tingkat reject tertinggi antar-mesin (<strong>7,13%</strong>), dengan kombinasi interaksi <strong>Yogurt–M2 mencapai 9,41%</strong> yang memerlukan evaluasi teknis prioritas.
+        </p>
+        <p class="report-text">
+          Pola cacat mutu teridentifikasi spesifik pada masing-masing lini: <em>High Moisture, High pH, dan Metal Detector Fail</em> menjadi tiga parameter defect utama yang secara kumulatif menyumbang 40% dari keseluruhan kegagalan mutu. Pola time-series memperlihatkan fluktuasi berulang tanpa tren penurunan yang stabil. Oleh karena itu, strategi penjaminan mutu difokuskan pada penguatan pengendalian parameter proses pengisian dan pengemasan, audit teknis mesin M2 pada lini yogurt, serta validasi akar masalah lanjutan menggunakan kerangka <strong>5M1E (Man, Machine, Material, Method, Measurement, Environment)</strong>.
+        </p>
+      </div>
+
+      <!-- English Executive Summary -->
+      <div class="report-paragraph-block english-block">
+        <h5 class="report-subheading"><i class="fa-solid fa-globe"></i> Executive Summary (English Translation)</h5>
+        <p class="report-text text-italic">
+          Overall, the <strong>6.58%</strong> reject rate indicates that quality variation is predominantly driven by <strong>product type, machine performance, and defect characteristics</strong> rather than operator or shift differences. <strong>Yogurt</strong> recorded the highest product reject rate (<strong>7.94%</strong>), while <strong>Machine M2</strong> exhibited the highest equipment reject rate (<strong>7.13%</strong>), with the specific <strong>Yogurt–M2 interaction reaching 9.41%</strong>, warranting targeted engineering investigation.
+        </p>
+        <p class="report-text text-italic">
+          Defect distributions vary significantly across product categories, with <em>High Moisture, High pH, and Metal Detector Fail</em> identified as the top three defect priorities, collectively accounting for 40% of total rejects. Trend analyses indicate recurring variation rather than a sustained quality trajectory. Consequently, corrective actions must prioritize process control in dosing and packaging operations, maintenance calibration for Machine M2, and systematic root-cause confirmation via the <strong>5M1E framework</strong>.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+        <!-- 2. KPI Section -->
+        <section id="kpi-section" class="section-block">
+          <div class="kpi-grid">
+            <div class="card kpi-card">
+              <div class="kpi-icon-wrapper icon-blue"><i class="fa-solid fa-vial"></i></div>
+              <div class="kpi-details">
+                <span class="kpi-label">Total Inspeksi Batch</span>
+                <h3 class="kpi-value">4.800</h3>
+                <span class="kpi-subtext">5 Produk &bull; 3 Mesin &bull; 2 Shift</span>
+              </div>
+            </div>
+
+            <div class="card kpi-card">
+              <div class="kpi-icon-wrapper icon-green"><i class="fa-solid fa-circle-check"></i></div>
+              <div class="kpi-details">
+                <span class="kpi-label">Lolos Uji (PASS)</span>
+                <h3 class="kpi-value text-success">4.484</h3>
+                <span class="kpi-subtext">93,42% Pass Rate</span>
+              </div>
+            </div>
+
+            <div class="card kpi-card">
+              <div class="kpi-icon-wrapper icon-red"><i class="fa-solid fa-circle-xmark"></i></div>
+              <div class="kpi-details">
+                <span class="kpi-label">Gagal Uji (FAIL / Reject)</span>
+                <h3 class="kpi-value text-danger">316</h3>
+                <span class="kpi-subtext">6,58% Overall Reject Rate</span>
+              </div>
+            </div>
+
+            <div class="card kpi-card">
+              <div class="kpi-icon-wrapper icon-pink"><i class="fa-solid fa-triangle-exclamation"></i></div>
+              <div class="kpi-details">
+                <span class="kpi-label">Fokus Produk Kritis</span>
+                <h3 class="kpi-value text-danger">Yogurt</h3>
+                <span class="kpi-subtext">7,94% Reject (81 Batch)</span>
+              </div>
+            </div>
+
+            <div class="card kpi-card">
+              <div class="kpi-icon-wrapper icon-yellow"><i class="fa-solid fa-gears"></i></div>
+              <div class="kpi-details">
+                <span class="kpi-label">Mesin Prioritas Evaluasi</span>
+                <h3 class="kpi-value text-warning">Mesin M2</h3>
+                <span class="kpi-subtext">7,13% Reject (112 Batch)</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 3. Section: Pivot Produk & Mesin -->
+        <section id="pivot-product-machine-section" class="section-block">
+          <div class="section-header">
+            <div>
+              <h3 class="section-title"><i class="fa-solid fa-boxes-packing"></i> Pivot Sheet: Produk & Mesin Produksi</h3>
+              <p class="section-desc">Tabel agregasi inspeksi, jumlah lolos/gagal, serta evaluasi performa mesin.</p>
+            </div>
+          </div>
+
+          <div class="pivot-row-grid">
+            <!-- Pivot Product Table -->
+            <div class="card">
+              <div class="card-header-flex">
+                <h4 class="card-heading"><i class="fa-solid fa-table"></i> Pivot Product (Tujuan: Mengetahui inspeksi & pass/reject tiap produk)</h4>
+              </div>
+              <div class="table-responsive">
+                <table class="data-table">
+                  <thead>
+                    <tr>
+                      <th>Product</th>
+                      <th>FAIL</th>
+                      <th>PASS</th>
+                      <th>Grand Total</th>
+                      <th>Reject Rate %</th>
+                      <th>Status Prioritas</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr><td>Cookies</td><td>69</td><td>951</td><td>1.020</td><td>6,76%</td><td><span class="badge badge-warning">Medium</span></td></tr>
+                    <tr><td>Crackers</td><td>60</td><td>1.000</td><td>1.060</td><td>5,66%</td><td><span class="badge badge-success">Terendah</span></td></tr>
+                    <tr><td>Strawberry Jam</td><td>50</td><td>750</td><td>800</td><td>6,25%</td><td><span class="badge badge-warning">Medium</span></td></tr>
+                    <tr><td>Tomato Sauce</td><td>56</td><td>844</td><td>900</td><td>6,22%</td><td><span class="badge badge-warning">Medium</span></td></tr>
+                    <tr class="row-highlight"><td><strong>Yogurt</strong></td><td><strong>81</strong></td><td>939</td><td>1.020</td><td><strong>7,94%</strong></td><td><span class="badge badge-danger">Prioritas 1</span></td></tr>
+                    <tr class="row-total"><td><strong>Grand Total</strong></td><td><strong>316</strong></td><td><strong>4.484</strong></td><td><strong>4.800</strong></td><td><strong>6,58%</strong></td><td>—</td></tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="note-box">
+                <strong>Kesimpulan:</strong> "Yogurt memiliki reject rate tertinggi yaitu <strong>7,94%</strong> dibandingkan dengan produk lainnya, sedangkan Crackers memiliki reject rate terendah yaitu <strong>5,66%</strong>. Yogurt menjadi produk dengan prioritas investigasi tertinggi karena memiliki reject rate sebesar 7,94%."
+              </div>
+            </div>
+
+            <!-- Pivot Machine Table -->
+            <div class="card">
+              <div class="card-header-flex">
+                <h4 class="card-heading"><i class="fa-solid fa-gears"></i> Pivot Machine (Tujuan: Evaluasi performa mesin)</h4>
+              </div>
+              <div class="table-responsive">
+                <table class="data-table">
+                  <thead>
+                    <tr>
+                      <th>Machine</th>
+                      <th>FAIL</th>
+                      <th>PASS</th>
+                      <th>Grand Total</th>
+                      <th>Reject Rate %</th>
+                      <th>Evaluasi</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr><td>M1</td><td>97</td><td>1.557</td><td>1.654</td><td>5,86%</td><td><span class="badge badge-success">Terendah</span></td></tr>
+                    <tr class="row-highlight"><td><strong>M2</strong></td><td><strong>112</strong></td><td>1.458</td><td>1.570</td><td><strong>7,13%</strong></td><td><span class="badge badge-danger">Tertinggi</span></td></tr>
+                    <tr><td>M3</td><td>107</td><td>1.469</td><td>1.576</td><td>6,79%</td><td><span class="badge badge-warning">Tinggi</span></td></tr>
+                    <tr class="row-total"><td><strong>Grand Total</strong></td><td><strong>316</strong></td><td><strong>4.484</strong></td><td><strong>4.800</strong></td><td><strong>6,58%</strong></td><td>—</td></tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="note-box">
+                <strong>Interpretasi:</strong> "M2 menunjukkan reject rate tertinggi sebesar <strong>7,13%</strong>, sehingga layak menjadi prioritas evaluasi performa mesin dan parameter proses. Namun, perbedaan ini belum membuktikan bahwa M2 merupakan root cause."
+              </div>
+            </div>
+          </div>
+
+          <!-- Pivot Mesin Fix (Cross-Tabulation) -->
+          <div class="card">
+            <div class="card-header-flex">
+              <div>
+                <h4 class="card-heading"><i class="fa-solid fa-network-wired"></i> Pivot Mesin Fix: Cross-Tabulation Machine vs Product</h4>
+                <small class="text-muted">Kombinasi silang jumlah FAIL dan Reject Rate % per lini mesin dan produk</small>
+              </div>
+            </div>
+            <div class="table-responsive">
+              <table class="data-table text-center-table">
+                <thead>
+                  <tr>
+                    <th rowspan="2">Machine</th>
+                    <th colspan="2">Cookies</th>
+                    <th colspan="2">Crackers</th>
+                    <th colspan="2">Strawberry Jam</th>
+                    <th colspan="2">Tomato Sauce</th>
+                    <th colspan="2" class="th-highlight">Yogurt</th>
+                    <th rowspan="2">Total Batch</th>
+                  </tr>
+                  <tr>
+                    <th>FAIL</th><th>Rate%</th>
+                    <th>FAIL</th><th>Rate%</th>
+                    <th>FAIL</th><th>Rate%</th>
+                    <th>FAIL</th><th>Rate%</th>
+                    <th class="th-highlight">FAIL</th><th class="th-highlight">Rate%</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><strong>M1</strong></td>
+                    <td>23</td><td>6,57%</td>
+                    <td>21</td><td>5,79%</td>
+                    <td>14</td><td>5,19%</td>
+                    <td>19</td><td>5,78%</td>
+                    <td class="td-highlight">20</td><td class="td-highlight">5,85%</td>
+                    <td><strong>1.654</strong></td>
+                  </tr>
+                  <tr class="row-highlight">
+                    <td><strong>M2</strong></td>
+                    <td>27</td><td>7,83%</td>
+                    <td>20</td><td>6,08%</td>
+                    <td>15</td><td>5,68%</td>
+                    <td>18</td><td>6,16%</td>
+                    <td class="td-danger-bold">32</td><td class="td-danger-bold">9,41%</td>
+                    <td><strong>1.570</strong></td>
+                  </tr>
+                  <tr>
+                    <td><strong>M3</strong></td>
+                    <td>19</td><td>5,85%</td>
+                    <td>19</td><td>5,16%</td>
+                    <td>21</td><td>7,89%</td>
+                    <td>19</td><td>6,81%</td>
+                    <td class="td-danger-bold">29</td><td class="td-danger-bold">8,58%</td>
+                    <td><strong>1.576</strong></td>
+                  </tr>
+                  <tr class="row-total">
+                    <td><strong>Grand Total</strong></td>
+                    <td><strong>69</strong></td><td><strong>6,76%</strong></td>
+                    <td><strong>60</strong></td><td><strong>5,66%</strong></td>
+                    <td><strong>50</strong></td><td><strong>6,25%</strong></td>
+                    <td><strong>56</strong></td><td><strong>6,22%</strong></td>
+                    <td class="td-highlight"><strong>81</strong></td><td class="td-highlight"><strong>7,94%</strong></td>
+                    <td><strong>4.800</strong></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="note-box">
+              <strong>Note:</strong> Kombinasi <strong>M2 &times; Yogurt</strong> mencatat lonjakan reject tertinggi yaitu <strong>9,41% (32 batch)</strong>, disusul M3 &times; Yogurt (8,58%). Ini menegaskan adanya interaksi kuat antara mesin pengemasan cup yogurt dan setelan mesin M2.
+            </div>
+          </div>
+        </section>
+
+        <!-- 4. Section: Sheet Machine vs Reject Cause -->
+        <section id="pivot-machine-cause-section" class="section-block">
+          <div class="section-header">
+            <div>
+              <h3 class="section-title"><i class="fa-solid fa-industry"></i> Pivot Sheet: Rejected Batches by Machine and Reject Cause</h3>
+              <p class="section-desc">Matriks silang 3 Mesin &times; 9 Kategori Cacat Mutu beserta analisis diagnostik tiap mesin.</p>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-header-flex">
+              <div>
+                <h4 class="card-heading"><i class="fa-solid fa-table-cells"></i> Matriks Mesin vs Jenis Cacat</h4>
+                <small class="text-muted">Filter Status_QC = FAIL (Total 316 Batch Reject)</small>
+              </div>
+            </div>
+            <div class="table-responsive">
+              <table class="data-table text-center-table">
+                <thead>
+                  <tr>
+                    <th>Machine</th>
+                    <th class="th-alert">Appearance Defect</th>
+                    <th class="th-alert">High Moisture</th>
+                    <th class="th-alert">High pH</th>
+                    <th>Low Brix</th>
+                    <th>Low Moisture</th>
+                    <th class="th-alert">Metal Detector</th>
+                    <th class="th-alert">Overweight</th>
+                    <th class="th-alert">Seal Defect</th>
+                    <th>Underweight</th>
+                    <th>Grand Total</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><strong>M1</strong></td>
+                    <td>10</td>
+                    <td class="td-warning-bold">14</td>
+                    <td class="td-danger-bold">18</td>
+                    <td>7</td><td>10</td><td>7</td>
+                    <td class="td-warning-bold">12</td>
+                    <td class="td-warning-bold">11</td>
+                    <td>8</td>
+                    <td><strong>97</strong></td>
+                  </tr>
+                  <tr class="row-highlight">
+                    <td><strong>M2</strong></td>
+                    <td>8</td>
+                    <td class="td-danger-bold">19</td>
+                    <td>11</td><td>8</td><td>11</td>
+                    <td class="td-danger-bold">17</td>
+                    <td>11</td>
+                    <td class="td-danger-bold">15</td>
+                    <td>12</td>
+                    <td><strong>112</strong></td>
+                  </tr>
+                  <tr>
+                    <td><strong>M3</strong></td>
+                    <td class="td-danger-bold">14</td>
+                    <td>12</td>
+                    <td class="td-danger-bold">14</td>
+                    <td>10</td><td>13</td>
+                    <td class="td-danger-bold">14</td>
+                    <td>10</td><td>9</td><td>11</td>
+                    <td><strong>107</strong></td>
+                  </tr>
+                  <tr class="row-total">
+                    <td><strong>Grand Total</strong></td>
+                    <td><strong>32</strong></td><td><strong>45</strong></td><td><strong>43</strong></td><td><strong>25</strong></td><td><strong>34</strong></td><td><strong>38</strong></td><td><strong>33</strong></td><td><strong>35</strong></td><td><strong>31</strong></td>
+                    <td><strong>316</strong></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <!-- 3 Columns Notes from the Sheet -->
+            <div class="machine-notes-grid">
+              <div class="mini-note-card">
+                <h5>Mesin M1</h5>
+                <p><strong>Penyebab tertinggi:</strong> High pH = 18 batch</p>
+                <p><em>diikuti:</em> Overweight = 12 batch, Seal Defect = 11 batch.</p>
+              </div>
+
+              <div class="mini-note-card highlight-card">
+                <h5>Mesin M2 (Prioritas Tertinggi)</h5>
+                <p><strong>Penyebab paling menonjol:</strong> High Moisture = 19 batch, Metal Detector Fail = 17 batch, Seal Defect = 15 batch.</p>
+                <p><em>Note:</em> "M2 juga merupakan mesin dengan reject rate tertinggi. Ini kombinasi yang menarik."</p>
+              </div>
+
+              <div class="mini-note-card">
+                <h5>Mesin M3</h5>
+                <p><strong>Penyebab relatif tersebar:</strong> Appearance Defect = 14 batch, High pH = 14 batch, Metal Detector Fail = 14 batch.</p>
+                <p><em>Note:</em> "Tidak ada satu penyebab yang sangat dominan."</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 5. Section: Pareto Analysis & Product vs Reject Cause -->
+        <section id="pivot-pareto-section" class="section-block">
+          <div class="section-header">
+            <div>
+              <h3 class="section-title"><i class="fa-solid fa-chart-column"></i> Pareto Analysis & Matrix Product vs Reject Cause</h3>
+              <p class="section-desc">Kombinasi analisis pareto cacat dan rincian penyebab reject per jenis produk makanan.</p>
+            </div>
+          </div>
+
+          <div class="charts-grid">
+            <!-- Pareto Chart Container -->
+            <div class="card chart-card">
+              <div class="chart-header">
+                <div>
+                  <h4>Pareto Analysis of Reject Causes</h4>
+                  <small>7 dari 9 kategori cacat menyumbang 82% total kegagalan</small>
+                </div>
+              </div>
+              <div class="chart-wrapper">
+                <canvas id="paretoChartCanvas"></canvas>
+              </div>
+              <div class="note-box">
+                <strong>Note Pareto:</strong> "Berdasarkan Pareto Chart, penyebab reject dengan frekuensi tertinggi adalah <em>High Moisture</em> sebanyak 45 batch (14%), diikuti oleh <em>High pH</em> sebanyak 43 batch (28% kumulatif) dan <em>Metal Detector Fail</em> sebanyak 38 batch (40% kumulatif). Namun, distribusi penyebab reject relatif merata sehingga tidak terdapat satu penyebab yang secara signifikan mendominasi. Upaya perbaikan mutu perlu difokuskan pada beberapa faktor sekaligus, bukan hanya satu penyebab utama."
+              </div>
+            </div>
+
+            <!-- Pareto Data Table -->
+            <div class="card">
+              <div class="card-header-flex">
+                <h4 class="card-heading"><i class="fa-solid fa-list-ol"></i> Frekuensi & Kumulatif Pareto</h4>
+              </div>
+              <div class="table-responsive">
+                <table class="data-table">
+                  <thead>
+                    <tr>
+                      <th>Penyebab Reject</th>
+                      <th>Count of Batch</th>
+                      <th>Kumulatif</th>
+                      <th>Cumulative %</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr class="row-highlight"><td><strong>1. High Moisture</strong></td><td>45</td><td>45</td><td>14%</td></tr>
+                    <tr class="row-highlight"><td><strong>2. High pH</strong></td><td>43</td><td>88</td><td>28%</td></tr>
+                    <tr class="row-highlight"><td><strong>3. Metal Detector Fail</strong></td><td>38</td><td>126</td><td>40%</td></tr>
+                    <tr><td>4. Seal Defect</td><td>35</td><td>161</td><td>51%</td></tr>
+                    <tr><td>5. Low Moisture</td><td>34</td><td>195</td><td>62%</td></tr>
+                    <tr><td>6. Overweight</td><td>33</td><td>228</td><td>72%</td></tr>
+                    <tr><td>7. Appearance Defect</td><td>32</td><td>260</td><td>82%</td></tr>
+                    <tr><td>8. Underweight</td><td>31</td><td>291</td><td>92%</td></tr>
+                    <tr><td>9. Low Brix</td><td>25</td><td>316</td><td>100%</td></tr>
+                    <tr class="row-total"><td><strong>Grand Total</strong></td><td><strong>316</strong></td><td>—</td><td><strong>100%</strong></td></tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="note-box">
+                <strong>Prioritas Awal Perbaikan:</strong> 1. High Moisture, 2. High pH, 3. Metal Detector Fail, 4. Seal Defect, 5. Low Moisture, 6. Overweight, 7. Appearance Defect.
+              </div>
+            </div>
+          </div>
+
+          <!-- Cross Tabulation: Product vs Reject Cause -->
+          <div class="card">
+            <div class="card-header-flex">
+              <div>
+                <h4 class="card-heading"><i class="fa-solid fa-table-cells-large"></i> Matriks Silang: Rejected Batches by Product and Reject Cause</h4>
+                <small class="text-muted">Karakteristik cacat spesifik yang mendominasi tiap kategori produk</small>
+              </div>
+            </div>
+            <div class="table-responsive">
+              <table class="data-table text-center-table">
+                <thead>
+                  <tr>
+                    <th>Product</th>
+                    <th>Appearance Defect</th>
+                    <th class="th-alert">High Moisture</th>
+                    <th class="th-alert">High pH</th>
+                    <th>Low Brix</th>
+                    <th>Low Moisture</th>
+                    <th class="th-alert">Metal Detector</th>
+                    <th>Overweight</th>
+                    <th class="th-alert">Seal Defect</th>
+                    <th class="th-alert">Underweight</th>
+                    <th>Grand Total</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><strong>Cookies</strong></td>
+                    <td>8</td>
+                    <td class="td-danger-bold">15</td>
+                    <td>8</td><td>3</td><td>7</td><td>8</td><td>6</td><td>7</td><td>7</td>
+                    <td><strong>69</strong></td>
+                  </tr>
+                  <tr>
+                    <td><strong>Crackers</strong></td>
+                    <td>6</td>
+                    <td class="td-danger-bold">12</td>
+                    <td>7</td><td>7</td><td>7</td><td>5</td><td>5</td><td>8</td><td>3</td>
+                    <td><strong>60</strong></td>
+                  </tr>
+                  <tr>
+                    <td><strong>Strawberry Jam</strong></td>
+                    <td>6</td><td>6</td><td>6</td><td>5</td><td>4</td>
+                    <td class="td-danger-bold">10</td>
+                    <td>3</td><td>5</td><td>5</td>
+                    <td><strong>50</strong></td>
+                  </tr>
+                  <tr>
+                    <td><strong>Tomato Sauce</strong></td>
+                    <td>4</td><td>4</td>
+                    <td class="td-danger-bold">14</td>
+                    <td>5</td><td>7</td><td>6</td><td>10</td><td>2</td><td>4</td>
+                    <td><strong>56</strong></td>
+                  </tr>
+                  <tr class="row-highlight">
+                    <td><strong>Yogurt</strong></td>
+                    <td>8</td><td>8</td><td>8</td><td>5</td><td>9</td><td>9</td><td>9</td>
+                    <td class="td-danger-bold">13</td>
+                    <td class="td-danger-bold">12</td>
+                    <td><strong>81</strong></td>
+                  </tr>
+                  <tr class="row-total">
+                    <td><strong>Grand Total</strong></td>
+                    <td><strong>32</strong></td><td><strong>45</strong></td><td><strong>43</strong></td><td><strong>25</strong></td><td><strong>34</strong></td><td><strong>38</strong></td><td><strong>33</strong></td><td><strong>35</strong></td><td><strong>31</strong></td>
+                    <td><strong>316</strong></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <!-- Notes by Product -->
+            <div class="product-notes-grid">
+              <div class="product-note-item">
+                <strong>Cookies:</strong> Reject dominan <em>High Moisture = 15 batch</em> dari 69 reject (<strong>21,7%</strong> reject Cookies).
+              </div>
+              <div class="product-note-item">
+                <strong>Crackers:</strong> Paling tinggi <em>High Moisture = 12 batch</em> (<strong>20,0%</strong> dari seluruh reject Crackers).
+              </div>
+              <div class="product-note-item">
+                <strong>Strawberry Jam:</strong> Paling tinggi <em>Metal Detector Fail = 10 batch</em> (<strong>20,0%</strong> reject). Penyebab dominan berbeda dari biskuit.
+              </div>
+              <div class="product-note-item">
+                <strong>Tomato Sauce:</strong> Sangat jelas didominasi <em>High pH = 14 batch</em> dari 56 reject (<strong>25,0%</strong>). Konsentrasi penyebab yang sangat kuat.
+              </div>
+              <div class="product-note-item highlight-item">
+                <strong>Yogurt:</strong> Paling menonjol pada <em>Seal Defect = 13 batch</em> dan <em>Underweight = 12 batch</em> dari 81 reject.
+              </div>
+            </div>
+
+            <div class="note-box alert-note">
+              <strong>Insight Kunci:</strong> "Yogurt bukan hanya produk dengan reject rate tertinggi, tetapi jenis masalahnya terkonsentrasi pada Seal Defect dan Underweight, sedangkan Tomato Sauce didominasi High pH. <strong>Artinya strategi improvement sebaiknya tidak disamaratakan untuk semua produk.</strong>"
+            </div>
+          </div>
+        </section>
+
+        <!-- 6. Section: Pivot Shift & Operator -->
+        <section id="pivot-shift-operator-section" class="section-block">
+          <div class="section-header">
+            <div>
+              <h3 class="section-title"><i class="fa-solid fa-user-clock"></i> Pivot Sheet: Analisis Shift & Operator</h3>
+              <p class="section-desc">Evaluasi komparatif keterkaitan variabel shift dan operator terhadap kejadian reject.</p>
+            </div>
+          </div>
+
+          <div class="pivot-row-grid">
+            <!-- Shift Table -->
+            <div class="card">
+              <div class="card-header-flex">
+                <h4 class="card-heading"><i class="fa-solid fa-clock"></i> Pivot Shift (Tujuan: Apakah reject lebih banyak terjadi pada shift tertentu?)</h4>
+              </div>
+              <div class="table-responsive">
+                <table class="data-table">
+                  <thead>
+                    <tr>
+                      <th>Shift</th>
+                      <th>FAIL</th>
+                      <th>PASS</th>
+                      <th>Grand Total</th>
+                      <th>Reject Rate %</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr><td><strong>Shift 1</strong></td><td>156</td><td>2.244</td><td>2.400</td><td><strong>6,50%</strong></td></tr>
+                    <tr><td><strong>Shift 2</strong></td><td>160</td><td>2.240</td><td>2.400</td><td><strong>6,67%</strong></td></tr>
+                    <tr class="row-total"><td><strong>Grand Total</strong></td><td><strong>316</strong></td><td><strong>4.484</strong></td><td><strong>4.800</strong></td><td><strong>6,58%</strong></td></tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="note-box">
+                <strong>Interpretasi:</strong> "Distribusi reject kedua shift sangat mirip (6,50% vs 6,67%). Jadi tidak terdapat indikasi kuat bahwa shift merupakan faktor pembeda utama reject."
+              </div>
+            </div>
+
+            <!-- Operator Table -->
+            <div class="card">
+              <div class="card-header-flex">
+                <h4 class="card-heading"><i class="fa-solid fa-users"></i> Pivot Operator (Tujuan: Membandingkan performa operator)</h4>
+              </div>
+              <div class="table-responsive">
+                <table class="data-table">
+                  <thead>
+                    <tr>
+                      <th>Operator</th>
+                      <th>FAIL</th>
+                      <th>PASS</th>
+                      <th>Grand Total</th>
+                      <th>Reject Rate %</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr><td>Operator A</td><td>52</td><td>762</td><td>814</td><td>6,39%</td></tr>
+                    <tr><td>Operator B</td><td>55</td><td>789</td><td>844</td><td>6,52%</td></tr>
+                    <tr><td>Operator C</td><td>52</td><td>763</td><td>815</td><td>6,38%</td></tr>
+                    <tr><td>Operator D</td><td>52</td><td>735</td><td>787</td><td>6,61%</td></tr>
+                    <tr><td>Operator E</td><td>53</td><td>746</td><td>799</td><td>6,63%</td></tr>
+                    <tr><td>Operator F</td><td>52</td><td>689</td><td>741</td><td>7,02%</td></tr>
+                    <tr class="row-total"><td><strong>Grand Total</strong></td><td><strong>316</strong></td><td><strong>4.484</strong></td><td><strong>4.800</strong></td><td><strong>6,58%</strong></td></tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="note-box">
+                <strong>Interpretasi:</strong> "Operator F memang memiliki rate tertinggi, <strong>7,02%</strong>, tetapi semua operator berada di kisaran <strong>6,38–7,02%</strong>. Tidak ada operator yang memiliki reject rate yang sangat menyimpang dari operator lainnya. Jadi variasi reject antar operator relatif kecil dan tidak menunjukkan adanya satu operator yang menjadi outlier dominan."
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 7. Section: Time Series Trend Analysis -->
+        <section id="pivot-trend-section" class="section-block">
+          <div class="section-header">
+            <div>
+              <h3 class="section-title"><i class="fa-solid fa-chart-line"></i> Analisis Tren Reject (Harian, Mingguan, Bulanan)</h3>
+              <p class="section-desc">Pola pergerakan reject time series untuk mendeteksi anomali kronis atau perbaikan mutu.</p>
+            </div>
+          </div>
+
+          <div class="charts-grid">
+            <!-- Daily Chart -->
+            <div class="card chart-card">
+              <div class="chart-header">
+                <div>
+                  <h4>Daily Reject Trend (Rentang: 1–7 Batch/Hari)</h4>
+                  <small>Peak 7 batch muncul pada: 8 Februari, 18 Maret, dan 23 Maret</small>
+                </div>
+              </div>
+              <div class="chart-wrapper">
+                <canvas id="dailyTrendChartCanvas"></canvas>
+              </div>
+              <div class="note-box">
+                <strong>Interpretasi:</strong> "Dari data harian, reject berfluktuasi, tetapi tidak terlihat adanya lonjakan yang terus-menerus (berkisar 1–7 batch/hari). Masalahnya terlihat lebih seperti <strong>chronic / recurring quality issue</strong> daripada satu kejadian besar yang hanya terjadi sekali. Namun, tanggal-tanggal yang mencapai 7 batch layak dijadikan <em>trigger untuk drill-down</em> ke produk, mesin, shift, dan penyebab reject."
+              </div>
+            </div>
+
+            <!-- Weekly & Monthly Container -->
+            <div class="card chart-card">
+              <div class="chart-header">
+                <div>
+                  <h4>Monthly Reject Date & Weekly Trend</h4>
+                  <small>Jan (84) &bull; Feb (73) &bull; Mar (76) &bull; Apr (83) &bull; Mingguan (12–23 Batch)</small>
+                </div>
+              </div>
+              <div class="chart-wrapper">
+                <canvas id="monthlyTrendChartCanvas"></canvas>
+              </div>
+              <div class="note-box">
+                <strong>Interpretasi:</strong> "Reject mingguan berfluktuasi dalam rentang 12–23 batch (misal 1–7 Jan: 23, 5–11 Feb: 23, 23–29 Apr: 23). Tren bulanan turun di Februari namun naik kembali di Maret dan April. Belum terlihat tren penurunan reject yang konsisten (belum ada continuous improvement). Pola masih fluktuatif/stabil pada level tertentu."
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 8. Section: Master QC Data Table (Naturalized Distribution) -->
+        <section id="raw-table-section" class="section-block">
+          <div class="card">
+            <div class="table-controls-header">
+              <div class="table-title-area">
+                <h4 class="card-heading"><i class="fa-solid fa-database"></i> QC Master Data Records (4.800 Baris)</h4>
+                <p class="card-subheading">Data aktual terdistribusi secara kronologis alami sepanjang Jan–Apr 2026 (93,42% PASS & 6,58% FAIL).</p>
+              </div>
+
+              <div class="table-action-bar">
+                <div class="search-box">
+                  <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                  <input type="text" id="globalSearch" placeholder="Cari Batch, Produk, Mesin, Operator..." class="form-control table-search">
+                </div>
+                <select id="filterProductSelect" class="form-control">
+                  <option value="">Semua Produk</option>
+                  <option value="Cookies">Cookies</option>
+                  <option value="Crackers">Crackers</option>
+                  <option value="Strawberry Jam">Strawberry Jam</option>
+                  <option value="Tomato Sauce">Tomato Sauce</option>
+                  <option value="Yogurt">Yogurt</option>
+                </select>
+                <select id="filterMachineSelect" class="form-control">
+                  <option value="">Semua Mesin</option>
+                  <option value="M1">Mesin M1</option>
+                  <option value="M2">Mesin M2</option>
+                  <option value="M3">Mesin M3</option>
+                </select>
+                <select id="filterStatusSelect" class="form-control">
+                  <option value="">Semua Status</option>
+                  <option value="PASS">PASS</option>
+                  <option value="FAIL">FAIL</option>
+                </select>
+                <button class="btn-secondary" id="btnExportCSV">
+                  <i class="fa-solid fa-download"></i> Ekspor CSV
+                </button>
+              </div>
+            </div>
+
+            <div class="table-responsive">
+              <table class="data-table" id="rawDataTable">
+                <thead>
+                  <tr>
+                    <th>No</th>
+                    <th>Tanggal</th>
+                    <th>No. Batch</th>
+                    <th>Product</th>
+                    <th>Machine</th>
+                    <th>Shift</th>
+                    <th>Operator</th>
+                    <th>Status QC</th>
+                    <th>Penyebab Reject</th>
+                  </tr>
+                </thead>
+                <tbody id="rawTableBody">
+                  <!-- Populated by JS -->
+                </tbody>
+              </table>
+            </div>
+
+            <div class="table-footer">
+              <div class="table-info" id="tablePaginationInfo">
+                Menampilkan 1 - 25 dari 4.800 data
+              </div>
+              <div class="pagination-controls" id="tablePaginationBtns"></div>
+            </div>
+          </div>
+        </section>
+
+      </div>
+
+      <!-- App Footer -->
+      <footer class="app-footer">
+        <div>&copy; 2026 Quality Assurance & Food Safety Department &bull; Diagnostic Quality Portfolio</div>
+        <div>Engine: 100% Client-Side Processing (SheetJS &bull; Chart.js &bull; Vanilla ES6+)</div>
+      </footer>
+    </main>
+  </div>
+
+  <!-- Scripts -->
+  <script src="js/utils.js"></script>
+  <script src="js/excel-parser.js"></script>
+  <script src="js/charts.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
