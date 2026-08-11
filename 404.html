@@ -1,0 +1,361 @@
+```html
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>404 — Halaman Tidak Ditemukan</title>
+
+  <style>
+    :root {
+      /* Brand Core Palettes */
+      --primary-pink: #d19b9b;
+      --primary-pink-dark: #b67b7b;
+      --primary-pink-light: #fbf1f7;
+
+      --primary-green: #b2c22b;
+      --primary-green-dark: #8e9e1c;
+      --primary-green-light: #f5f8da;
+
+      --bg-pink: #fbf1f7;
+      --card-bg: #ffffff;
+
+      --text-dark: #3a3a3a;
+      --text-body: #555555;
+      --text-light: #ffffff;
+      --muted: #888888;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      min-height: 100vh;
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        Roboto,
+        Helvetica,
+        Arial,
+        sans-serif;
+
+      background: var(--bg-pink);
+      color: var(--text-dark);
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      padding: 24px;
+
+      overflow: hidden;
+    }
+
+    /* Decorative circles */
+    body::before,
+    body::after {
+      content: "";
+      position: fixed;
+      border-radius: 50%;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    body::before {
+      width: 320px;
+      height: 320px;
+      background: var(--primary-green-light);
+      top: -140px;
+      left: -100px;
+    }
+
+    body::after {
+      width: 380px;
+      height: 380px;
+      background: #f4e3e8;
+      bottom: -180px;
+      right: -120px;
+    }
+
+    .error-card {
+      position: relative;
+      z-index: 1;
+
+      width: 100%;
+      max-width: 620px;
+
+      background: var(--card-bg);
+
+      padding: 60px 48px;
+
+      border-radius: 28px;
+
+      text-align: center;
+
+      box-shadow:
+        0 20px 60px rgba(182, 123, 123, 0.12);
+
+      border: 1px solid rgba(209, 155, 155, 0.15);
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+
+      margin-bottom: 30px;
+
+      color: var(--primary-pink-dark);
+
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .brand-dot {
+      width: 9px;
+      height: 9px;
+
+      border-radius: 50%;
+
+      background: var(--primary-green);
+    }
+
+    .error-code {
+      font-size: clamp(90px, 20vw, 150px);
+      line-height: 0.9;
+
+      font-weight: 800;
+
+      letter-spacing: -0.07em;
+
+      color: var(--primary-pink);
+
+      margin-bottom: 24px;
+    }
+
+    .title {
+      font-size: clamp(26px, 5vw, 38px);
+      line-height: 1.2;
+
+      font-weight: 700;
+
+      color: var(--text-dark);
+
+      margin-bottom: 14px;
+    }
+
+    .description {
+      max-width: 430px;
+
+      margin: 0 auto 32px;
+
+      color: var(--text-body);
+
+      font-size: 16px;
+      line-height: 1.7;
+    }
+
+    .buttons {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+
+      min-width: 150px;
+
+      padding: 13px 22px;
+
+      border-radius: 999px;
+
+      text-decoration: none;
+
+      font-size: 14px;
+      font-weight: 700;
+
+      transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease,
+        background 0.2s ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+    }
+
+    .btn-primary {
+      color: var(--text-light);
+
+      background: var(--primary-pink-dark);
+
+      box-shadow:
+        0 8px 20px rgba(182, 123, 123, 0.25);
+    }
+
+    .btn-primary:hover {
+      background: var(--primary-pink);
+      box-shadow:
+        0 10px 25px rgba(182, 123, 123, 0.3);
+    }
+
+    .btn-secondary {
+      color: var(--primary-green-dark);
+
+      background: var(--primary-green-light);
+
+      border: 1px solid rgba(142, 158, 28, 0.15);
+    }
+
+    .btn-secondary:hover {
+      background: var(--primary-green);
+      color: var(--text-light);
+    }
+
+    .hint {
+      margin-top: 28px;
+
+      color: var(--muted);
+
+      font-size: 13px;
+    }
+
+    /* Small decorative flower */
+    .flower {
+      position: absolute;
+
+      width: 52px;
+      height: 52px;
+
+      top: 30px;
+      right: 32px;
+
+      opacity: 0.8;
+    }
+
+    .flower::before,
+    .flower::after {
+      content: "";
+
+      position: absolute;
+
+      width: 22px;
+      height: 22px;
+
+      border-radius: 50%;
+
+      background: var(--primary-green);
+    }
+
+    .flower::before {
+      top: 0;
+      left: 15px;
+
+      box-shadow:
+        -15px 15px 0 var(--primary-green),
+        15px 15px 0 var(--primary-green),
+        0 30px 0 var(--primary-green);
+    }
+
+    .flower::after {
+      width: 12px;
+      height: 12px;
+
+      top: 20px;
+      left: 20px;
+
+      background: var(--primary-pink-dark);
+    }
+
+    /* Mobile */
+    @media (max-width: 600px) {
+      body {
+        padding: 16px;
+      }
+
+      .error-card {
+        padding: 48px 24px;
+        border-radius: 22px;
+      }
+
+      .flower {
+        top: 22px;
+        right: 22px;
+
+        transform: scale(0.75);
+      }
+
+      .error-code {
+        margin-top: 10px;
+      }
+
+      .description {
+        font-size: 15px;
+      }
+
+      .buttons {
+        flex-direction: column;
+      }
+
+      .btn {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <main class="error-card">
+
+    <div class="flower" aria-hidden="true"></div>
+
+    <div class="brand">
+      <span class="brand-dot"></span>
+      Pooja Bunga Pitriana
+    </div>
+
+    <div class="error-code">
+      404
+    </div>
+
+    <h1 class="title">
+      Halaman tidak ditemukan
+    </h1>
+
+    <p class="description">
+      Sepertinya halaman yang kamu cari tidak tersedia,
+      sudah dipindahkan, atau alamatnya mungkin salah.
+    </p>
+
+    <div class="buttons">
+      <a href="/" class="btn btn-primary">
+        Kembali ke Beranda
+      </a>
+
+      <a href="/portofolio/" class="btn btn-secondary">
+        Lihat Portofolio
+      </a>
+    </div>
+
+    <p class="hint">
+      Tidak menemukan yang dicari? Coba kembali ke halaman utama.
+    </p>
+
+  </main>
+
+</body>
+</html>
+```
