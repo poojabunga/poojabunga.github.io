@@ -13,16 +13,23 @@
  */
 
 document.addEventListener('DOMContentLoaded', () => {
-  // ------------------------------------------------------------------------
-  // 1. Dark / Light Mode Theme Toggle
+// ------------------------------------------------------------------------
+  // 1. Theme Toggle (Default: Light Mode & Simpan Pilihan di LocalStorage)
   // ------------------------------------------------------------------------
   const themeToggle = document.getElementById('themeToggle');
-  const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+  
+  // Baca tema yang tersimpan di browser, jika belum ada selalu set default ke 'light'
+  const savedTheme = localStorage.getItem('app-theme') || 'light';
 
-  if (prefersDark) {
+  if (savedTheme === 'dark') {
     document.body.classList.add('dark-mode');
-    if (themeToggle.querySelector('.theme-text')) {
+    if (themeToggle && themeToggle.querySelector('.theme-text')) {
       themeToggle.querySelector('.theme-text').textContent = 'Dark Mode';
+    }
+  } else {
+    document.body.classList.remove('dark-mode');
+    if (themeToggle && themeToggle.querySelector('.theme-text')) {
+      themeToggle.querySelector('.theme-text').textContent = 'Light Mode';
     }
   }
 
@@ -30,6 +37,10 @@ document.addEventListener('DOMContentLoaded', () => {
     themeToggle.addEventListener('click', () => {
       document.body.classList.toggle('dark-mode');
       const isDark = document.body.classList.contains('dark-mode');
+      
+      // Simpan preferensi pengguna ke LocalStorage
+      localStorage.setItem('app-theme', isDark ? 'dark' : 'light');
+      
       const textSpan = themeToggle.querySelector('.theme-text');
       if (textSpan) {
         textSpan.textContent = isDark ? 'Dark Mode' : 'Light Mode';
